@@ -40,6 +40,7 @@ namespace BirdyBotv2.Commands
             pronounEmbed.AddField(":six: :", "They / She");
             pronounEmbed.AddField(":seven: :", "Call Me Whatever (No Preference)");
             pronounEmbed.AddField(":eight: :", "Call Me By My Name (No Nouns)");
+            pronounEmbed.AddField(":nine: :", "Ask me for my pronouns.");
 
             DiscordMessage pronounMessage = await ctx.Channel.SendMessageAsync(embed: pronounEmbed).ConfigureAwait(false);
 
@@ -51,6 +52,7 @@ namespace BirdyBotv2.Commands
             DiscordEmoji six = DiscordEmoji.FromName(ctx.Client, ":six:");
             DiscordEmoji seven = DiscordEmoji.FromName(ctx.Client, ":seven:");
             DiscordEmoji eight = DiscordEmoji.FromName(ctx.Client, ":eight:");
+            DiscordEmoji nine = DiscordEmoji.FromName(ctx.Client, ":nine:");
 
             DiscordRole sheHer;
             DiscordRole heHim;
@@ -60,6 +62,7 @@ namespace BirdyBotv2.Commands
             DiscordRole theyShe;
             DiscordRole callMeWhatever;
             DiscordRole noNouns;
+            DiscordRole ask;
 
             if (ctx.Guild.Name == "The Cyan Blades")
             {
@@ -71,6 +74,7 @@ namespace BirdyBotv2.Commands
                 theyShe = ctx.Guild.GetRole(724252107066048615);
                 callMeWhatever = ctx.Guild.GetRole(724252197990432862);
                 noNouns = ctx.Guild.GetRole(724252313681920061);
+                ask = ctx.Guild.GetRole(750029930301227038);
             }
             else
             {
@@ -82,6 +86,7 @@ namespace BirdyBotv2.Commands
                 theyShe = ctx.Guild.GetRole(749855812016537651);
                 callMeWhatever = ctx.Guild.GetRole(749856035745038406);
                 noNouns = ctx.Guild.GetRole(749854428961439755);
+                ask = ctx.Guild.GetRole(750029670531203112);
             }
 
             await pronounMessage.CreateReactionAsync(one).ConfigureAwait(false);
@@ -92,6 +97,7 @@ namespace BirdyBotv2.Commands
             await pronounMessage.CreateReactionAsync(six).ConfigureAwait(false);
             await pronounMessage.CreateReactionAsync(seven).ConfigureAwait(false);
             await pronounMessage.CreateReactionAsync(eight).ConfigureAwait(false);
+            await pronounMessage.CreateReactionAsync(nine).ConfigureAwait(false);
 
             DiscordMessage pingReminder = await ctx.Channel.SendMessageAsync("If your preferred pronouns are missing, please feel free to tag Serana to add them.").ConfigureAwait(false);
 
@@ -100,7 +106,7 @@ namespace BirdyBotv2.Commands
             var reactionResult = await interactivity.WaitForReactionAsync(
                 x => x.Message == pronounMessage &&
                 x.User == ctx.User &&
-                (x.Emoji == one || x.Emoji == two || x.Emoji == three || x.Emoji == four || x.Emoji == five || x.Emoji == six || x.Emoji == seven || x.Emoji == eight)).ConfigureAwait(false);
+                (x.Emoji == one || x.Emoji == two || x.Emoji == three || x.Emoji == four || x.Emoji == five || x.Emoji == six || x.Emoji == seven || x.Emoji == eight || x.Emoji == nine)).ConfigureAwait(false);
 
             if (reactionResult.Result.Emoji == one)
             {
@@ -190,6 +196,17 @@ namespace BirdyBotv2.Commands
                     await ctx.Member.GrantRoleAsync(noNouns).ConfigureAwait(false);
                 }
             }
+            else if (reactionResult.Result.Emoji == nine)
+            {
+                if (ctx.Member.Roles.Contains(ask))
+                {
+                    await ctx.Member.RevokeRoleAsync(ask).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ctx.Member.GrantRoleAsync(ask).ConfigureAwait(false);
+                }
+            }
 
             await pronounMessage.DeleteAsync().ConfigureAwait(false);
             await pingReminder.DeleteAsync().ConfigureAwait(false);
@@ -213,6 +230,7 @@ namespace BirdyBotv2.Commands
             optinEmbed.AddField(":five: :", "Bi and Pan");
             optinEmbed.AddField(":six: :", "Aro");
             optinEmbed.AddField(":seven: :", "Ace");
+            optinEmbed.AddField(":eight: :", "Leaks");
 
             DiscordMessage optinMessage = await ctx.Channel.SendMessageAsync(embed: optinEmbed).ConfigureAwait(false);
 
@@ -223,6 +241,7 @@ namespace BirdyBotv2.Commands
             DiscordEmoji five = DiscordEmoji.FromName(ctx.Client, ":five:");
             DiscordEmoji six = DiscordEmoji.FromName(ctx.Client, ":six:");
             DiscordEmoji seven = DiscordEmoji.FromName(ctx.Client, ":seven:");
+            DiscordEmoji eight = DiscordEmoji.FromName(ctx.Client, ":eight:");
 
             DiscordRole cwNSFW = ctx.Guild.GetRole(749746783898304525);
             DiscordRole gfg = ctx.Guild.GetRole(749752249697304576);
@@ -231,6 +250,7 @@ namespace BirdyBotv2.Commands
             DiscordRole biPan = ctx.Guild.GetRole(749752256836141088);
             DiscordRole aro = ctx.Guild.GetRole(749752307826032660);
             DiscordRole ace = ctx.Guild.GetRole(749752669563912252);
+            DiscordRole leaks = ctx.Guild.GetRole(749966697158541444);
 
             await optinMessage.CreateReactionAsync(one).ConfigureAwait(false);
             await optinMessage.CreateReactionAsync(two).ConfigureAwait(false);
@@ -239,13 +259,14 @@ namespace BirdyBotv2.Commands
             await optinMessage.CreateReactionAsync(five).ConfigureAwait(false);
             await optinMessage.CreateReactionAsync(six).ConfigureAwait(false);
             await optinMessage.CreateReactionAsync(seven).ConfigureAwait(false);
+            await optinMessage.CreateReactionAsync(eight).ConfigureAwait(false);
 
             InteractivityExtension interactivity = ctx.Client.GetInteractivity();
 
             var reactionResult = await interactivity.WaitForReactionAsync(
                 x => x.Message == optinMessage &&
                 x.User == ctx.User &&
-                (x.Emoji == one || x.Emoji == two || x.Emoji == three || x.Emoji == four || x.Emoji == five || x.Emoji == six || x.Emoji == seven)).ConfigureAwait(false);
+                (x.Emoji == one || x.Emoji == two || x.Emoji == three || x.Emoji == four || x.Emoji == five || x.Emoji == six || x.Emoji == seven || x.Emoji == eight)).ConfigureAwait(false);
 
             if (reactionResult.Result.Emoji == one)
             {
@@ -324,8 +345,66 @@ namespace BirdyBotv2.Commands
                     await ctx.Member.GrantRoleAsync(ace).ConfigureAwait(false);
                 }
             }
+            else if (reactionResult.Result.Emoji == eight)
+            {
+                if (ctx.Member.Roles.Contains(leaks))
+                {
+                    await ctx.Member.RevokeRoleAsync(leaks).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ctx.Member.GrantRoleAsync(leaks).ConfigureAwait(false);
+                }
+            }
+            else
+            {
+
+            }
 
             await optinMessage.DeleteAsync().ConfigureAwait(false);
+        }
+
+        [Command("plural")]
+        [Description("Toggles the plural role")]
+        public async Task Plural(CommandContext ctx)
+        {
+            DiscordEmbedBuilder pluralEmbed = new DiscordEmbedBuilder
+            {
+                Title = "Are you plural?",
+                Color = DiscordColor.Cyan
+            };
+
+            DiscordMessage pluralMessage = await ctx.Channel.SendMessageAsync(embed: pluralEmbed).ConfigureAwait(false);
+
+            DiscordEmoji thumbsUpEmoji = DiscordEmoji.FromName(ctx.Client, ":+1:");
+            DiscordEmoji thumbsDownEmoji = DiscordEmoji.FromName(ctx.Client, ":-1:");
+
+            await pluralMessage.CreateReactionAsync(thumbsUpEmoji).ConfigureAwait(false);
+            await pluralMessage.CreateReactionAsync(thumbsDownEmoji).ConfigureAwait(false);
+
+            InteractivityExtension interactivity = ctx.Client.GetInteractivity();
+
+            var reactionResult = await interactivity.WaitForReactionAsync(
+                x => x.Message == pluralMessage &&
+                x.User == ctx.User &&
+                (x.Emoji == thumbsUpEmoji || x.Emoji == thumbsDownEmoji)).ConfigureAwait(false);
+
+            DiscordRole role = ctx.Guild.GetRole(750388701611163689);
+
+            if (reactionResult.Result.Emoji == thumbsUpEmoji)
+            {
+                await ctx.Member.GrantRoleAsync(role).ConfigureAwait(false);
+            }
+            else if (reactionResult.Result.Emoji == thumbsDownEmoji)
+            {
+                await ctx.Member.RevokeRoleAsync(role).ConfigureAwait(false);
+            }
+            else
+            {
+                //Something went wrong
+            }
+
+            await pluralMessage.DeleteAsync().ConfigureAwait(false);
         }
 
         [Command("supportStreamers")]
