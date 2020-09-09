@@ -230,7 +230,8 @@ namespace BirdyBotv2.Commands
             optinEmbed.AddField(":five: :", "Bi and Pan");
             optinEmbed.AddField(":six: :", "Aro");
             optinEmbed.AddField(":seven: :", "Ace");
-            optinEmbed.AddField(":eight: :", "Leaks");
+            optinEmbed.AddField(":eight: :", "Polyam");
+            optinEmbed.AddField(":nine: :", "Leaks");
 
             DiscordMessage optinMessage = await ctx.Channel.SendMessageAsync(embed: optinEmbed).ConfigureAwait(false);
 
@@ -242,6 +243,7 @@ namespace BirdyBotv2.Commands
             DiscordEmoji six = DiscordEmoji.FromName(ctx.Client, ":six:");
             DiscordEmoji seven = DiscordEmoji.FromName(ctx.Client, ":seven:");
             DiscordEmoji eight = DiscordEmoji.FromName(ctx.Client, ":eight:");
+            DiscordEmoji nine = DiscordEmoji.FromName(ctx.Client, ":nine:");
 
             DiscordRole cwNSFW = ctx.Guild.GetRole(749746783898304525);
             DiscordRole gfg = ctx.Guild.GetRole(749752249697304576);
@@ -250,6 +252,7 @@ namespace BirdyBotv2.Commands
             DiscordRole biPan = ctx.Guild.GetRole(749752256836141088);
             DiscordRole aro = ctx.Guild.GetRole(749752307826032660);
             DiscordRole ace = ctx.Guild.GetRole(749752669563912252);
+            DiscordRole poly = ctx.Guild.GetRole(753344576659652649);
             DiscordRole leaks = ctx.Guild.GetRole(749966697158541444);
 
             await optinMessage.CreateReactionAsync(one).ConfigureAwait(false);
@@ -266,7 +269,7 @@ namespace BirdyBotv2.Commands
             var reactionResult = await interactivity.WaitForReactionAsync(
                 x => x.Message == optinMessage &&
                 x.User == ctx.User &&
-                (x.Emoji == one || x.Emoji == two || x.Emoji == three || x.Emoji == four || x.Emoji == five || x.Emoji == six || x.Emoji == seven || x.Emoji == eight)).ConfigureAwait(false);
+                (x.Emoji == one || x.Emoji == two || x.Emoji == three || x.Emoji == four || x.Emoji == five || x.Emoji == six || x.Emoji == seven || x.Emoji == eight || x.Emoji == nine)).ConfigureAwait(false);
 
             if (reactionResult.Result.Emoji == one)
             {
@@ -347,7 +350,18 @@ namespace BirdyBotv2.Commands
             }
             else if (reactionResult.Result.Emoji == eight)
             {
-                if (ctx.Member.Roles.Contains(leaks))
+                if (ctx.Member.Roles.Contains(poly))
+                {
+                    await ctx.Member.RevokeRoleAsync(poly).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ctx.Member.GrantRoleAsync(poly).ConfigureAwait(false);
+                }
+            }
+            else if(reactionResult.Result.Emoji == nine)
+            {
+                if(ctx.Member.Roles.Contains(leaks))
                 {
                     await ctx.Member.RevokeRoleAsync(leaks).ConfigureAwait(false);
                 }
